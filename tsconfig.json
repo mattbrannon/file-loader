@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module":"Node16",
+    "moduleResolution": "Node16",
+    "target": "ESNext",
+    "outDir": "./compiled",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.cts",
+    "**/*.mts",
+  ]
+}
