@@ -32,9 +32,10 @@ export default class FileLoader {
 
   static async #importModule(pathToModule: string, useCache = true) {
     const importPath = useCache ? pathToModule : `${pathToModule}?${Date.now()}`;
-
+    const isJson = await this.#isJson(importPath);
+    
     switch (true) {
-      case pathToModule.endsWith('.json'): {
+      case isJson: {
         return await this.#importJson(importPath);
       }
       default: {
@@ -48,6 +49,20 @@ export default class FileLoader {
       delete this.#require.cache[this.#require.resolve(pathToModule)];
     }
     return this.#require(pathToModule);
+  }
+
+  static async #isJson(pathToModule: string) {
+    try {
+      if (pathToModule.endsWith('.json')) {
+        return true;
+      }
+      const content = await readFile(fileURLToPath(pathToModule), 'utf-8');
+      JSON.parse(content);
+      return true;
+    }
+    catch {
+      return false;
+    }
   }
 
   static async #importJson(pathToModule: string) {
