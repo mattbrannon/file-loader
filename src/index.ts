@@ -52,6 +52,10 @@ export default class FileLoader {
 
   static async #importJson(pathToModule: string) {
     try {
+      const supportsJsonImports = process.versions.node >= '17.1.0';
+      if (supportsJsonImports) {
+        return await import(pathToModule, { assert: { type: 'json' } });
+      }
       const content = await readFile(fileURLToPath(pathToModule), 'utf-8');
       return JSON.parse(content);
     }
