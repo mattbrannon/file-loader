@@ -74,6 +74,16 @@ describe('FileLoader', () => {
       });
     });
 
+    it('should recognize a JSON file without a file extension (test/.eslintrc)', async () => {
+      const isJson = await FileLoader.isJson('test/.eslintrc');
+      assert.equal(isJson, true);
+    });
+
+    it('should load a JSON file without a file extension (test/.eslintrc)', async () => {
+      const json = await FileLoader.loadModule('test/.eslintrc');
+      assert.ok(json);
+    });
+
     it('should throw error for non-existent module', async () => {
       await assert.rejects(FileLoader.loadModule('non-existent-module'));  
     });
