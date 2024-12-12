@@ -32,11 +32,11 @@ export default class FileLoader {
 
   static async #importModule(pathToModule: string, useCache = true) {
     const importPath = useCache ? pathToModule : `${pathToModule}?${Date.now()}`;
-    const isJson = await this.#isJson(importPath);
-    
+    const isJson = await this.isJson(pathToModule);
+
     switch (true) {
       case isJson: {
-        return await this.#importJson(importPath);
+        return await this.#importJson(pathToModule);
       }
       default: {
         return await this.#dynamicImport(importPath);
@@ -51,12 +51,12 @@ export default class FileLoader {
     return this.#require(pathToModule);
   }
 
-  static async #isJson(pathToModule: string) {
+  static async isJson(pathToModule: string) {
     try {
       if (pathToModule.endsWith('.json')) {
         return true;
       }
-      const content = await readFile(fileURLToPath(pathToModule), 'utf-8');
+      const content = await readFile(pathToModule, 'utf-8');
       JSON.parse(content);
       return true;
     }
@@ -67,11 +67,7 @@ export default class FileLoader {
 
   static async #importJson(pathToModule: string) {
     try {
-      const supportsJsonImports = process.versions.node >= '17.1.0';
-      if (supportsJsonImports) {
-        return await import(pathToModule, { assert: { type: 'json' } });
-      }
-      const content = await readFile(fileURLToPath(pathToModule), 'utf-8');
+      const content = await readFile(pathToModule, 'utf-8');
       return JSON.parse(content);
     }
     catch (error) {
@@ -81,7 +77,8 @@ export default class FileLoader {
   
   static async #dynamicImport(pathToModule: string) {
     try {
-      return await import(pathToModule);
+      const module = await import(pathToModule);
+      return module.default || module;
     }
     catch (error) {
       throw new Error(`Error: Could not import module: ${pathToModule}`, { cause: error });
