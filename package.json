@@ -8,9 +8,16 @@
       "require": "./dist/cjs/index.cjs"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "node ./dist/cjs/test.cjs && node ./dist/esm/test.mjs",
-    "build": "rm -rf ./temp ./dist && dual-compile javascript && eslint ./dist --fix && rm -rf ./temp"
+    "test": "node ./test",
+    "clean": "rimraf ./temp ./dist",
+    "compile": "dual-compile javascript",
+    "lint": "eslint ./src --fix",
+    "build:dev": "npm run clean && npm run lint && npm run compile",
+    "build": "npm run build:dev && eslint ./dist --fix && npm run test && rimraf ./temp"
   },
   "keywords": [],
   "author": "Matt Brannon",
@@ -18,8 +25,10 @@
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@types/node": "^20.17.9",
+    "dual-package-compiler": "@mattbrannon/dual-package-compiler",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
+    "rimraf": "^6.0.1",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.17.0"
   }
