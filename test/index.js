@@ -6,56 +6,56 @@ const fs = require('fs');
 
 describe('FileLoader', () => {
   describe('loadModule', () => {
-    describe('should load a commonjs file (test/sample.js)', () => {
+    describe('should load a commonjs file (sample.js)', () => {
       it('using the cache', async () => {
-        const module1 = await FileLoader.loadModule('test/sample.js');
-        fs.writeFileSync('test/sample.js', 'module.exports = { isUsingCache: false };');
-        const module2 = await FileLoader.loadModule('test/sample.js');
-        fs.writeFileSync('test/sample.js', 'module.exports = { isUsingCache: true };');
+        const module1 = await FileLoader.loadModule('test/fixtures/sample.js');
+        fs.writeFileSync('test/fixtures/sample.js', 'module.exports = { isUsingCache: false };');
+        const module2 = await FileLoader.loadModule('test/fixtures/sample.js');
+        fs.writeFileSync('test/fixtures/sample.js', 'module.exports = { isUsingCache: true };');
         assert.equal(module1, module2);
       });
 
       it('without using the cache', async () => {
-        const module1 = await FileLoader.loadModule('test/sample.js');
-        fs.writeFileSync('test/sample.js', 'module.exports = { isUsingCache: false };');
-        const module2 = await FileLoader.loadModule('test/sample.js', false);
-        fs.writeFileSync('test/sample.js', 'module.exports = { isUsingCache: true };');
+        const module1 = await FileLoader.loadModule('test/fixtures/sample.js');
+        fs.writeFileSync('test/fixtures/sample.js', 'module.exports = { isUsingCache: false };');
+        const module2 = await FileLoader.loadModule('test/fixtures/sample.js', false);
+        fs.writeFileSync('test/fixtures/sample.js', 'module.exports = { isUsingCache: true };');
         assert.notEqual(module1, module2);
       });
     });
 
-    describe('should load a esm file (test/sample.mjs)', () => {
+    describe('should load a esm file (sample.mjs)', () => {
       it('using the cache', async () => {
-        const module1 = await FileLoader.loadModule('test/sample.mjs');
-        fs.writeFileSync('test/sample.mjs', 'export default { isUsingCache: false };');
-        const module2 = await FileLoader.loadModule('test/sample.mjs');
-        fs.writeFileSync('test/sample.mjs', 'export default { isUsingCache: true };');
+        const module1 = await FileLoader.loadModule('test/fixtures/sample.mjs');
+        fs.writeFileSync('test/fixtures/sample.mjs', 'export default { isUsingCache: false };');
+        const module2 = await FileLoader.loadModule('test/fixtures/sample.mjs');
+        fs.writeFileSync('test/fixtures/sample.mjs', 'export default { isUsingCache: true };');
         assert.equal(module1, module2);
       });
 
       it('without using the cache', async () => {
-        const module1 = await FileLoader.loadModule('test/sample.mjs');
-        fs.writeFileSync('test/sample.mjs', 'export default { isUsingCache: false };');
-        const module2 = await FileLoader.loadModule('test/sample.mjs', false);
-        fs.writeFileSync('test/sample.mjs', 'export default { isUsingCache: true };');
+        const module1 = await FileLoader.loadModule('test/fixtures/sample.mjs');
+        fs.writeFileSync('test/fixtures/sample.mjs', 'export default { isUsingCache: false };');
+        const module2 = await FileLoader.loadModule('test/fixtures/sample.mjs', false);
+        fs.writeFileSync('test/fixtures/sample.mjs', 'export default { isUsingCache: true };');
         assert.notEqual(module1, module2);
       });
     });
 
-    describe('should load a json file (test/sample.json)', () => {
+    describe('should load a json file (sample.json)', () => {
       it('using the cache', async () => {
-        const json1 = await FileLoader.loadModule('test/sample.json');
-        fs.writeFileSync('test/sample.json', JSON.stringify({ isUsingCache: false }, null, 2));
-        const json2 = await FileLoader.loadModule('test/sample.json');
-        fs.writeFileSync('test/sample.json', JSON.stringify({ isUsingCache: true }, null, 2));
+        const json1 = await FileLoader.loadModule('test/fixtures/sample.json');
+        fs.writeFileSync('test/fixtures/sample.json', JSON.stringify({ isUsingCache: false }, null, 2));
+        const json2 = await FileLoader.loadModule('test/fixtures/sample.json');
+        fs.writeFileSync('test/fixtures/sample.json', JSON.stringify({ isUsingCache: true }, null, 2));
         assert.equal(json1, json2);
       });
 
       it('without using the cache', async () => {
-        const json1 = await FileLoader.loadModule('test/sample.json');
-        fs.writeFileSync('test/sample.json', JSON.stringify({ isUsingCache: false }, null, 2));
-        const json2 = await FileLoader.loadModule('test/sample.json', false);
-        fs.writeFileSync('test/sample.json', JSON.stringify({ isUsingCache: true }, null, 2));
+        const json1 = await FileLoader.loadModule('test/fixtures/sample.json');
+        fs.writeFileSync('test/fixtures/sample.json', JSON.stringify({ isUsingCache: false }, null, 2));
+        const json2 = await FileLoader.loadModule('test/fixtures/sample.json', false);
+        fs.writeFileSync('test/fixtures/sample.json', JSON.stringify({ isUsingCache: true }, null, 2));
         assert.notEqual(json1, json2);
       });
     });
@@ -74,13 +74,13 @@ describe('FileLoader', () => {
       });
     });
 
-    it('should recognize a JSON file without a file extension (test/.eslintrc)', async () => {
-      const isJson = await FileLoader.isJson('test/.eslintrc');
+    it('should recognize a JSON file without a file extension (.eslintrc)', async () => {
+      const isJson = await FileLoader.isJson('test/fixtures/.eslintrc');
       assert.equal(isJson, true);
     });
 
-    it('should load a JSON file without a file extension (test/.eslintrc)', async () => {
-      const json = await FileLoader.loadModule('test/.eslintrc');
+    it('should load a JSON file without a file extension (.eslintrc)', async () => {
+      const json = await FileLoader.loadModule('test/fixtures/.eslintrc');
       assert.ok(json);
     });
 
@@ -91,25 +91,26 @@ describe('FileLoader', () => {
 
   describe('resolveModule', () => {
     it('should resolve path to commonjs file', () => {
-      const path = FileLoader.resolveModule('test/sample.js');
+      const path = FileLoader.resolveModule('test/fixtures/sample.js');
       assert.ok(path);
-      assert.match(path, /[/\\]test[/\\]sample.js/);  
+      assert.match(path, /[/\\]test[/\\]fixtures[/\\]sample.js/);  
     });
     it('should resolve path to esm file', () => {
-      const path = FileLoader.resolveModule('test/sample.mjs');
+      const path = FileLoader.resolveModule('test/fixtures/sample.mjs');
       assert.ok(path);
-      assert.match(path, /[/\\]test[/\\]sample.mjs/);  
+      assert.match(path, /[/\\]test[/\\]fixtures[/\\]sample.mjs/);  
     });
+
+    it('should resolve path to JSON file', () => {
+      const path = FileLoader.resolveModule('test/fixtures/sample.json');
+      assert.ok(path);
+      assert.match(path, /[/\\]test[/\\]fixtures[/\\]sample.json/);   
+    });
+
     it('should resolve path to external module', () => {
       const path = FileLoader.resolveModule('typescript');
       assert.ok(path);
       assert.match(path, /[/\\]node_modules[/\\]typescript/);  
-    });
-
-    it('should resolve path to JSON file', () => {
-      const path = FileLoader.resolveModule('test/sample.json');
-      assert.ok(path);
-      assert.match(path, /[/\\]test[/\\]sample.json/);   
     });
 
     it('should throw error for non-existent module', () => {
