@@ -43,6 +43,11 @@ const jsonData = await FileLoader.loadModule("./path/to/file.json");
 - `moduleName`: Path to the module
 - Returns: Resolved absolute path to the module
 
+### `isJson(moduleName)`
+
+- `moduleName`: Path to the module
+- Returns: Boolean indicating if the module is a JSON file
+
 ## License
 
 MIT © Matt Brannon
