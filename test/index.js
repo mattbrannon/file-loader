@@ -123,4 +123,28 @@ describe('FileLoader', () => {
       assert.throws(() => FileLoader.resolveModule('non-existent-module'));
     });
   });
+
+  describe('isJson', () => {
+    it('should return true for a JSON file', async () => {
+      const isJson = await FileLoader.isJson('test/fixtures/sample.json');
+      assert.equal(isJson, true);
+    });
+
+    it('should return false for a non-JSON file', async () => {
+      const isJson = await FileLoader.isJson('test/fixtures/sample.js');
+      assert.equal(isJson, false);
+    });
+  });
+
+  describe('parseJsonFile', () => {
+    it('should parse a JSON file', async () => {
+      const json = await FileLoader.parseJsonFile('test/fixtures/sample.json');
+      assert.ok(json);
+      assert.equal(json.isUsingCache, true);
+    });
+
+    it('should throw error for a non-JSON file', async () => {
+      await assert.rejects(FileLoader.parseJsonFile('test/fixtures/sample.js'));
+    });
+  });
 });
