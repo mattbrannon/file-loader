@@ -74,13 +74,13 @@ describe('FileLoader', () => {
       });
     });
 
-    it('should recognize a JSON file without a file extension (.eslintrc)', async () => {
-      const isJson = await FileLoader.isJson('test/fixtures/.eslintrc');
+    it('should recognize a JSON file without a file extension (.sample)', async () => {
+      const isJson = await FileLoader.isJson('test/fixtures/.sample');
       assert.equal(isJson, true);
     });
 
-    it('should load a JSON file without a file extension (.eslintrc)', async () => {
-      const json = await FileLoader.loadModule('test/fixtures/.eslintrc');
+    it('should load a JSON file without a file extension (.sample)', async () => {
+      const json = await FileLoader.loadModule('test/fixtures/.sample');
       assert.ok(json);
     });
 
@@ -105,6 +105,12 @@ describe('FileLoader', () => {
       const path = FileLoader.resolveModule('test/fixtures/sample.json');
       assert.ok(path);
       assert.match(path, /[/\\]test[/\\]fixtures[/\\]sample.json/);   
+    });
+    
+    it('should resolve path to JSON file without a file extension', () => {
+      const path = FileLoader.resolveModule('test/fixtures/.sample');
+      assert.ok(path);
+      assert.match(path, /[/\\]test[/\\]fixtures[/\\].sample/);   
     });
 
     it('should resolve path to external module', () => {
