@@ -36,7 +36,7 @@ export default class FileLoader {
 
     switch (true) {
       case isJson: {
-        return await this.#importJson(pathToModule);
+        return await this.parseJsonFile(pathToModule);
       }
       default: {
         return await this.#dynamicImport(importPath);
@@ -65,7 +65,7 @@ export default class FileLoader {
     }
   }
 
-  static async #importJson(pathToModule: string) {
+  static async parseJsonFile(pathToModule: string) {
     try {
       const content = await readFile(pathToModule, 'utf-8');
       return JSON.parse(content);
