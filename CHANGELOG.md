@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/mattbrannon/file-loader/compare/v1.0.0...v1.1.0) (2024-12-14)
+
+
+### Features
+
+* expose private method #importJson to public API as parseJsonFile ([568f575](https://github.com/mattbrannon/file-loader/commit/568f575e36c279531ecae4a22698cec97d2b6272))
+
 # 1.0.0 (2024-12-14)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@mattbrannon/file-loader",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Utility for loading modules in both ESM and CJS environments",
   "exports": {
     ".": {
