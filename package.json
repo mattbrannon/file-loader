@@ -1,6 +1,6 @@
 {
   "name": "@mattbrannon/file-loader",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Utility for loading modules in both ESM and CJS environments",
   "exports": {
     ".": {
@@ -48,8 +48,5 @@
     "semantic-release": "^24.2.0",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.17.0"
-  },
-  "publishConfig": {
-    "provenance": true
   }
 }
